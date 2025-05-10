@@ -63,31 +63,21 @@
         button:hover {
             background-color: #45a049;
         }
-
-
         #userid, #password {
-        width: 120px;  /* Ще вужчі поля */
+            width: 120px;  /* Ще вужчі поля */
         }
         #country {
             width: 150px;
         }
-
-
-
-
-        
- .form-group {
-    display: flex;
-    align-items: center; 
-    margin-bottom: 15px; 
-}
-.form-group label {
-    min-width: 150px; /* Фіксована ширина підпису */
-    margin-right: -30px; 
-}
-
-
-
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            min-width: 150px; /* Фіксована ширина підпису */
+            margin-right: -30px;
+        }
     </style>
 </head>
 <body>
@@ -96,35 +86,30 @@
         <p><strong>Siirry kentästä toiseen tab-näppäimellä.</strong></p>
         
         <form id="myForm">
-            <! Käyttäjä ID >
             <div class="form-group">
                 <label for="userid">Käyttäjä ID:</label>
                 <input type="text" id="userid">
                 <span class="error-message" id="error1"></span>
             </div>
-            
-            <! Salasana >
+
             <div class="form-group">
                 <label for="password">Salasana:</label>
                 <input type="password" id="password">
                 <span class="error-message" id="error2"></span>
             </div>
-            
-            <! Nimi >
+
             <div class="form-group">
                 <label for="name">Nimi:</label>
                 <input type="text" id="name">
                 <span class="error-message" id="error3"></span>
             </div>
-            
-            <! Osoite >
+
             <div class="form-group">
                 <label for="address">Osoite:</label>
                 <input type="text" id="address">
                 <span class="error-message" id="error4"></span>
             </div>
-            
-            <! Maa >
+
             <div class="form-group">
                 <label for="country">Maa:</label>
                 <select id="country">
@@ -139,26 +124,22 @@
                     <option value="LT">Liettua</option>
                     <option value="PL">Puola</option>
                     <option value="DE">Saksa</option>
-                    
                 </select>
                 <span class="error-message" id="error5"></span>
             </div>
-            
-            <! Postinumero >
+
             <div class="form-group">
                 <label for="postcode">Postinumero:</label>
                 <input type="text" id="postcode">
                 <span class="error-message" id="error6"></span>
             </div>
-            
-            <! Sähköposti >
+
             <div class="form-group">
                 <label for="email">Sähköposti:</label>
                 <input type="text" id="email">
                 <span class="error-message" id="error7"></span>
             </div>
-            
-            <! Sukupuoli >
+
             <div class="form-group">
                 <label>Sukupuoli:</label>
                 <div class="radio-group">
@@ -167,8 +148,7 @@
                 </div>
                 <span class="error-message" id="error8"></span>
             </div>
-            
-            <! Kieli >
+
             <div class="form-group">
                 <label>Kieli:</label>
                 <div class="radio-group">
@@ -177,13 +157,65 @@
                 </div>
                 <span class="error-message" id="error9"></span>
             </div>
-            
-            <! Lisätietoja >
+
             <div class="form-group">
                 <label for="info">Lisätietoja:</label>
                 <textarea id="info"></textarea>
             </div>
-            
+
             <button type="button" onclick="validateForm()">Lähetä</button>
         </form>
     </div>
+
+    <script>
+        function validateForm() {
+            let isValid = true;
+            document.querySelectorAll('.error-message').forEach((el) => el.style.display = 'none');
+
+            const userId = document.getElementById('userid').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const postcode = document.getElementById('postcode').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const gender = document.querySelector('input[name="gender"]:checked');
+
+            if (userId.length < 6) {
+                document.getElementById('error1').textContent = 'Käyttäjä ID:n tulee olla vähintään 6 merkkiä pitkä';
+                document.getElementById('error1').style.display = 'block';
+                isValid = false;
+            }
+
+            const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@£$€&%#]).{6,}$/;
+            if (!passwordPattern.test(password)) {
+                document.getElementById('error2').textContent = 'Salasanan tulee olla vähintään 6 merkkiä pitkä ja sisältää vähintään yksi numero, yksi iso kirjain ja erikoismerkki (!@£$€&%#)';
+                document.getElementById('error2').style.display = 'block';
+                isValid = false;
+            }
+
+            const postcodePattern = /^\d{5}$/;
+            if (!postcodePattern.test(postcode)) {
+                document.getElementById('error6').textContent = 'Postinumeron tulee olla 5 numeroa';
+                document.getElementById('error6').style.display = 'block';
+                isValid = false;
+            }
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById('error7').textContent = 'Syötä kelvollinen sähköpostiosoite';
+                document.getElementById('error7').style.display = 'block';
+                isValid = false;
+            }
+
+            if (!gender) {
+                document.getElementById('error8').textContent = 'Valitse sukupuoli';
+                document.getElementById('error8').style.display = 'block';
+                isValid = false;
+            }
+
+            if (isValid) {
+                alert('Lomake on validi!');
+            }
+        }
+    </script>
+</body>
+</html>
+
